@@ -17,7 +17,7 @@ class PlayersIntegrityTest extends TestCase
 /*
 		Check there are players that have can_play_goalie set as 1   
 */
-		$result = User::where('user_type', 'player')->where('can_play_goalie', 1)->count();
+		$result = User::ofPlayers()->where('can_play_goalie', 1)->count();
 		$this->assertTrue($result > 1);
 	
     }
@@ -34,8 +34,8 @@ class PlayersIntegrityTest extends TestCase
         decided for better readability to stick with 2 db calls.
 */
         $minPlayers = 18;
-        $players = User::where('user_type', 'player')->count();
-        $goalies = User::where('user_type', 'player')->where('can_play_goalie', 1)->count();
+        $players = User::ofPlayers()->count();
+        $goalies = User::ofPlayers()->where('can_play_goalie', 1)->count();
 
         $numTeams = intdiv($players, $minPlayers);
 

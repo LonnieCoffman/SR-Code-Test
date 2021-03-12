@@ -16,7 +16,7 @@ class UserController extends Controller
             amusing team names and published it on Packagist (https://packagist.org/packages/lonniecoffman/faker-team-names).
         * Team sizes are random and players are randomly assigned to teams prior to refining their placement.  Doing this allows
             for unique teams to be generated on each refresh.
-        * Since coaches were provided in the sample database I gave each team a random coach.
+        * Since coaches were provided in the sample database I gave each team a random coach if one is available.
     */
 
 
@@ -51,7 +51,7 @@ class UserController extends Controller
         // assign team name, coach and goalie to each team.  remove goalie from players object.
         for ($i = 0; $i < $numTeams; $i++) {
             $teams[$i]['name'] = $faker->teamName;
-            $teams[$i]['coach'] = $coaches[$i]->fullname;
+            $teams[$i]['coach'] = count($coaches) > $i ? $coaches[$i]->fullname : 'unknown';
             foreach ($players as $key => $player) {
                 if ($player->isGoalie) {
                     $teams[$i]['players'][0]['name'] = $player->fullname;
@@ -79,7 +79,7 @@ class UserController extends Controller
             $teams[$i]['average'] = $this->CalculateAverage($teams[$i]);
         }
 
-        // balance teams by shuffling players between lowest average and highest average team.
+        // balance teams by shuffling players between lowest average and highest average team. limit to 10 iterations.
         $sorting = true;
         $limit = 0;
         while ($sorting && $limit <= 10) {
