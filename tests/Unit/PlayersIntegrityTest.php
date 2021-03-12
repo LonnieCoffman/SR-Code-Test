@@ -30,7 +30,7 @@ class PlayersIntegrityTest extends TestCase
 */
 
 /*      NOTE: Number of teams is equal to total players divided by the min number of players per team.  Considered making one db call
-        to grab the goalie status of all players and then counting the values within the returned associative array, but
+        to grab the goalie status of all players and then counting the values within the returned object, but
         decided for better readability to stick with 2 db calls.
 */
         $minPlayers = 18;
